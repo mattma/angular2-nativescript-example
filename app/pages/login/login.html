@@ -1,0 +1,7 @@
+<StackLayout>
+  <TextField hint="Email Address" keyboardType="email" [(ngModel)]="user.email" autocorrect="false" autocapitalizationType="none"></TextField>
+  <TextField hint="Password" secure="true" [(ngModel)]="user.password"></TextField>
+
+  <Button [text]="isLoggingIn ? 'Sign In' : 'Sign Up'" class="submit-button" (tap)="submit()"></Button>
+  <Button [text]="isLoggingIn ? 'Sign up' : 'Back to login'" (tap)="toggleDisplay()"></Button>
+</StackLayout>

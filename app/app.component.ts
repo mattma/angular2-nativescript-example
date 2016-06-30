@@ -1,29 +1,44 @@
 import { Component } from "@angular/core";
+import {HTTP_PROVIDERS} from '@angular/http';
+import { User } from './shared/user/user';
+import { UserService } from './shared/user/user.service'
 
 @Component({
   selector: "my-app",
-  template: `
-<StackLayout>
-    <Label text="Tap the button" class="title"></Label>
-    
-    <Button text="TAP" (tap)="onTap()"></Button>
-
-    <Label [text]="message" class="message" textWrap="true"></Label>
-</StackLayout>
-`,
+  providers: [HTTP_PROVIDERS, UserService],
+  templateUrl: 'pages/login/login.html',
+  styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
 })
 export class AppComponent {
-  public counter: number = 16;
+  user: User;
+  isLoggingIn = true;
 
-  public get message (): string {
-    if (this.counter > 0) {
-      return this.counter + " taps left";
+  constructor (private userService: UserService) {
+    this.user = new User();
+  }
+
+  submit () {
+    if (this.isLoggingIn) {
+      this.login()
     } else {
-      return "Hoorraaay! \nYou are ready to start building!";
+      this.signup();
     }
   }
 
-  public onTap () {
-    this.counter--;
+  login(): void {
+
+  }
+
+  signup(): void {
+    this.userService.register(this.user)
+      .subscribe(()=> {
+        alert('successfully logged in');
+        this.toggleDisplay();
+      }, () => alert('something went wrong'));
+  }
+
+  toggleDisplay (): void {
+    console.log('click toggle');
+    this.isLoggingIn = !this.isLoggingIn;
   }
 }
