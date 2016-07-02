@@ -1,44 +1,15 @@
 import { Component } from "@angular/core";
-import {HTTP_PROVIDERS} from '@angular/http';
-import { User } from './shared/user/user';
-import { UserService } from './shared/user/user.service'
+import {RouteConfig} from "@angular/router-deprecated";
+import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from "nativescript-angular/router";
+import {LoginPage} from "./pages/login/login.component";
 
 @Component({
   selector: "my-app",
-  providers: [HTTP_PROVIDERS, UserService],
-  templateUrl: 'pages/login/login.html',
-  styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
+  directives: [NS_ROUTER_DIRECTIVES],
+  providers: [NS_ROUTER_PROVIDERS],
+  template: `<page-router-outlet></page-router-outlet>`
 })
-export class AppComponent {
-  user: User;
-  isLoggingIn = true;
-
-  constructor (private userService: UserService) {
-    this.user = new User();
-  }
-
-  submit () {
-    if (this.isLoggingIn) {
-      this.login()
-    } else {
-      this.signup();
-    }
-  }
-
-  login(): void {
-
-  }
-
-  signup(): void {
-    this.userService.register(this.user)
-      .subscribe(()=> {
-        alert('successfully logged in');
-        this.toggleDisplay();
-      }, () => alert('something went wrong'));
-  }
-
-  toggleDisplay (): void {
-    console.log('click toggle');
-    this.isLoggingIn = !this.isLoggingIn;
-  }
-}
+@RouteConfig([
+  {path: '/login', component: LoginPage, name: 'Login', useAsDefault: true}
+])
+export class AppComponent {}
