@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { HTTP_PROVIDERS } from '@angular/http';
+import { Router } from "@angular/router-deprecated";
 import { User } from '../../shared/user/user';
 import { UserService } from '../../shared/user/user.service';
 
@@ -13,7 +14,7 @@ export class LoginPage {
   user: User;
   isLoggingIn = true;
 
-  constructor (private userService: UserService) {
+  constructor (private userService: UserService, private router: Router) {
     this.user = new User();
     this.user.email = 'mattma';
     this.user.password = 'password';
@@ -28,7 +29,14 @@ export class LoginPage {
   }
 
   login (): void {
-
+    this.userService.login(this.user)
+      .subscribe((users)=> {
+        if (users.length) {
+          this.router.navigate(['List']);
+        } else {
+          alert('username or password is incorrect!')
+        }
+      }, () => alert('Unfortunately we could not find your account.'));
   }
 
   signup (): void {

@@ -9,7 +9,7 @@ import "rxjs/add/operator/map";
 export class UserService {
   // constructor(private _http: Http) {}
   
-  fakeRegisterUser() {
+  fakeUser() {
     return Observable.of([{
       email: 'mattma',
       password: 'password'
@@ -17,7 +17,14 @@ export class UserService {
   }
 
   register(user: User) {
-    return this.fakeRegisterUser()
+    return this.fakeUser()
+      .map((users: Array<User>) =>
+        users.filter((u: User) => u.email === user.email && u.password === user.password)
+      );
+  }
+  
+  login(user: User) {
+    return this.fakeUser()
       .map((users: Array<User>) =>
         users.filter((u: User) => u.email === user.email && u.password === user.password)
       );

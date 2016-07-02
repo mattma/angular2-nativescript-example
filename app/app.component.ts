@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
-import {RouteConfig} from "@angular/router-deprecated";
-import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from "nativescript-angular/router";
-import {LoginPage} from "./pages/login/login.component";
+import { RouteConfig } from "@angular/router-deprecated";
+import { NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS } from "nativescript-angular/router";
+import { LoginPage } from "./pages/login/login.component";
+import { ListPage } from "./pages/list/list.component";
 
 @Component({
   selector: "my-app",
@@ -10,6 +11,8 @@ import {LoginPage} from "./pages/login/login.component";
   template: `<page-router-outlet></page-router-outlet>`
 })
 @RouteConfig([
-  {path: '/login', component: LoginPage, name: 'Login', useAsDefault: true}
+  { path: '/login', component: LoginPage, name: 'Login', useAsDefault: true },
+  { path: "/List", component: ListPage, name: "List" }
 ])
-export class AppComponent {}
+export class AppComponent {
+}
