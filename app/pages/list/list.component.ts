@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Grocery } from '../../shared/grocery/grocery';
 import {TextField} from 'ui/text-field';
 
+const socialShare = require("nativescript-social-share");
+
 @Component({
   selector: "list",
   providers: [GroceryListService],
@@ -41,5 +43,12 @@ export class ListPage implements OnInit {
 
     this.groceryList$ = this.groceryListService.add(this.grocery);
     textField.text = '';
+  }
+
+  share() {
+    this.groceryList$.subscribe((groceries: Array<Grocery>) => {
+      const list = groceries.map((grocery: Grocery) => grocery.name).join(", ").trim();
+      socialShare.shareText(list);
+    });
   }
 }

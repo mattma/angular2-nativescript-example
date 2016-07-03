@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
 
   constructor (private userService: UserService, private router: Router, private page: Page) {
     this.user = new User();
-    this.user.email = 'mattma';
+    this.user.email = 'mattma@example.com';
     this.user.password = 'password';
   }
 
@@ -31,6 +31,11 @@ export class LoginPage implements OnInit {
   }
 
   submit () {
+    if (!this.user.isValidEmail()) {
+      alert("Enter a valid email address.");
+      return;
+    }
+
     if (this.isLoggingIn) {
       this.login();
     } else {

@@ -11,7 +11,7 @@ export class UserService {
   
   fakeUser() {
     return Observable.of([{
-      email: 'mattma',
+      email: 'mattma@example.com',
       password: 'password'
     }]);
   }
