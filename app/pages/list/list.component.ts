@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { GroceryListService } from '../../shared/grocery/grocery-list.service';
 import { Observable } from 'rxjs/Observable';
 import { Grocery } from '../../shared/grocery/grocery';
-import {TextField} from 'ui/text-field';
+import { TextField } from 'ui/text-field';
 
 const socialShare = require("nativescript-social-share");
 
@@ -19,9 +19,10 @@ export class ListPage implements OnInit {
   listLoaded: boolean = false;
   @ViewChild('groceryTextField') groceryTextField: ElementRef;
 
-  constructor(private groceryListService: GroceryListService) { }
+  constructor (private groceryListService: GroceryListService) {
+  }
 
-  ngOnInit() {
+  ngOnInit () {
     this.isLoading = true;
     this.groceryList$ = this.groceryListService.load();
 
@@ -31,7 +32,7 @@ export class ListPage implements OnInit {
     });
   }
 
-  add() {
+  add () {
     if (this.grocery.trim() === '') {
       alert("Enter a grocery item");
       return;
@@ -45,7 +46,12 @@ export class ListPage implements OnInit {
     textField.text = '';
   }
 
-  share() {
+  delete (grocery: Grocery) {
+    this.groceryList$ = this.groceryList$
+      .map((groceries: Array<Grocery>) => groceries.filter((g: Grocery) => g.id !== grocery.id));
+  }
+
+  share () {
     this.groceryList$.subscribe((groceries: Array<Grocery>) => {
       const list = groceries.map((grocery: Grocery) => grocery.name).join(", ").trim();
       socialShare.shareText(list);
