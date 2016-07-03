@@ -1,8 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { HTTP_PROVIDERS } from '@angular/http';
 import { Router } from "@angular/router-deprecated";
 import { User } from '../../shared/user/user';
 import { UserService } from '../../shared/user/user.service';
+import {Page} from 'ui/page';
+import {Color} from 'color';
+import {View} from 'ui/core/view';
 
 @Component({
   selector: "my-app",
@@ -10,14 +13,21 @@ import { UserService } from '../../shared/user/user.service';
   templateUrl: 'pages/login/login.html',
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   user: User;
   isLoggingIn = true;
+  // @ViewChild decorator to create a new property that points at the <StackLayout> element.
+  @ViewChild('container') container: ElementRef;
 
-  constructor (private userService: UserService, private router: Router) {
+  constructor (private userService: UserService, private router: Router, private page: Page) {
     this.user = new User();
     this.user.email = 'mattma';
     this.user.password = 'password';
+  }
+
+  ngOnInit() {
+    this.page.actionBarHidden = true;
+    this.page.backgroundImage = this.page.ios ? 'res://bg_login.jpg' : 'res://bg_login';
   }
 
   submit () {
@@ -51,5 +61,11 @@ export class LoginPage {
 
   toggleDisplay (): void {
     this.isLoggingIn = !this.isLoggingIn;
+    let container = <View>this.container.nativeElement;
+
+    container.animate({
+      backgroundColor: this.isLoggingIn ? new Color('white') : new Color('#301217'),
+      duration: 200
+    });
   }
 }
